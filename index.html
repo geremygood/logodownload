@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+
+    </style>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+
+    <nav>
+        <input type="search" />
+    </nav>
+    <div class="container">
+        <ul id="logos" class="row text-center list-unstyled">
+            <li>loading</li>
+        </ul>
+    </div>
+
+</body>
+
+
+<script>
+
+    function search(term){
+
+    }
+
+    function renderLogos(){
+        apiUrl = 'https://api.airtable.com/v0/apphMd9503nfm0nnQ/logos?api_key=key7iQrZbXDFuFeZ2'
+        logoList = ''
+        $.getJSON(apiUrl, function(data) {
+
+            for(i in data.records) {
+                Fields = data.records[i].fields;
+
+                if( Fields.Image !== undefined){
+                    logoImageSrc = Fields.Image[0].thumbnails.large.url
+                }else{
+                    logoImageSrc = '/img/np_missing-file_82078_000000.svg'
+                }
+
+                logoImage = `<img class="" width="100" height="100"  src="${logoImageSrc}" />`
+                logoName = `<p class="text-muted ">${Fields.Brand}</p>`
+                logoList += `<li class="col-sm-2 logo-record">${logoImage+logoName}</li>`
+            }
+            $('#logos').html(logoList);
+        })
+    }
+
+    renderLogos()
+
+</script>
+</html>
